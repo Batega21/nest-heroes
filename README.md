@@ -43,6 +43,12 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# docker postgresql
+$ docker-compose up db -d
+
+# typeorm installation
+npm install @nestjs/typeorm typeorm pg
 ```
 
 ## Test
