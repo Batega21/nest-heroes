@@ -5,7 +5,6 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Flavor } from './flavor.entity';
 
 // Represents a relationship between a class and a database table.
 @Entity()

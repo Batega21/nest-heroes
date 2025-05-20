@@ -4,7 +4,6 @@ import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Flavor } from '../entities/flavor.entity';
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { Event } from '../../events/entities/event.entity';
 
@@ -13,8 +12,6 @@ export class HeroesService {
   constructor(
     @InjectRepository(Hero)
     private readonly heroesRepository: Repository<Hero>,
-    @InjectRepository(Flavor)
-    private readonly flavorRepository: Repository<Flavor>,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -85,15 +82,5 @@ export class HeroesService {
     } finally {
       await queryRunner.release();
     }
-  }
-
-  private async preloadFlavorByName(name: string): Promise<Flavor> {
-    const existingFlavor = await this.flavorRepository.findOne({
-      where: { name },
-    }); // 👈 notice the "where"
-    if (existingFlavor) {
-      return existingFlavor;
-    }
-    return this.flavorRepository.create({ name });
   }
 }
