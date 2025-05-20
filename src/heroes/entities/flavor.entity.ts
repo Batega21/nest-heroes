@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Heroes } from './heroes.entity';
+import { Hero } from './heroes.entity';
 
 @Entity()
 export class Flavor {
@@ -11,8 +11,8 @@ export class Flavor {
 
   @ManyToMany(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (type) => Heroes,
+    (type) => Hero,
     (hero) => hero.flavors,
   )
-  heroes: Heroes[];
+  heroes: Hero[];
 }

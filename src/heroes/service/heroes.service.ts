@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Heroes } from '../entities/heroes.entity';
+import { Hero } from '../entities/heroes.entity';
 import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
 import { DataSource, Repository } from 'typeorm';
@@ -11,8 +11,8 @@ import { Event } from '../../events/entities/event.entity';
 @Injectable()
 export class HeroesService {
   constructor(
-    @InjectRepository(Heroes)
-    private readonly heroesRepository: Repository<Heroes>,
+    @InjectRepository(Hero)
+    private readonly heroesRepository: Repository<Hero>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
     private readonly dataSource: DataSource,
@@ -21,9 +21,6 @@ export class HeroesService {
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
     return this.heroesRepository.find({
-      relations: {
-        flavors: true,
-      },
       skip: offset,
       take: limit,
     });
@@ -34,9 +31,6 @@ export class HeroesService {
       where: {
         id: +id,
       },
-      relations: {
-        flavors: true,
-      },
     });
     if (!heroes) {
       throw new NotFoundException(`Hero #${id} not found`);
@@ -45,28 +39,17 @@ export class HeroesService {
   }
 
   async create(createHeroDto: CreateHeroDto) {
-    const flavors = await Promise.all(
-      createHeroDto.flavors.map((name) => this.preloadFlavorByName(name)),
-    );
-
     const heroes = this.heroesRepository.create({
       ...createHeroDto,
-      flavors,
     });
     return this.heroesRepository.save(heroes);
   }
 
   async update(id: string, updateHeroDto: UpdateHeroDto) {
-    const flavors =
-      updateHeroDto.flavors &&
-      (await Promise.all(
-        updateHeroDto.flavors.map((name) => this.preloadFlavorByName(name)),
-      ));
 
     const hero = await this.heroesRepository.preload({
       id: +id,
       ...updateHeroDto,
-      flavors,
     });
     if (!hero) {
       throw new NotFoundException(`Hero #${id} not found`);
@@ -79,7 +62,7 @@ export class HeroesService {
     return this.heroesRepository.remove(heroes);
   }
 
-  async recommendHero(hero: Heroes) {
+  async recommendHero(hero: Hero) {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
