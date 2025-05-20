@@ -9,7 +9,7 @@ import { Flavor } from './flavor.entity';
 
 // Represents a relationship between a class and a database table.
 @Entity()
-export class Coffee {
+export class Heroes {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,9 +26,9 @@ export class Coffee {
   @ManyToMany(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (type) => Flavor,
-    (flavor) => flavor.coffees, // what is "coffee" within the Flavor Entity
+    (flavor) => flavor.heroes,
     {
-      cascade: true, // or optionally just insert or update ['insert']
+      cascade: true,
     },
   )
   flavors: Flavor[];
