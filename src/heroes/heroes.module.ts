@@ -2,14 +2,13 @@ import { Module } from '@nestjs/common';
 import { HeroesController } from './controller/heroes.controller';
 import { HeroesService } from './service/heroes.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Heroes } from './entities/heroes.entity';
-import { Flavor } from './entities/flavor.entity';
+import { Hero } from './entities/heroes.entity';
 import { Event } from '../events/entities/event.entity';
 
 @Module({
   controllers: [HeroesController],
   exports: [HeroesService],
-  imports: [TypeOrmModule.forFeature([Heroes, Flavor, Event])],
+  imports: [TypeOrmModule.forFeature([Hero, Event])],
   providers: [HeroesService],
 })
 export class HeroesModule {}
