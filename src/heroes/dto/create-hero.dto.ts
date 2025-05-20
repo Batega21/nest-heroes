@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class CreateHeroDto {
   @IsString()
@@ -16,7 +16,7 @@ export class CreateHeroDto {
   @IsString()
   readonly team: string;
 
-  @IsString({ each: true })
+  @IsArray({ each: true })
   readonly powers: string[];
 
   @IsString()
