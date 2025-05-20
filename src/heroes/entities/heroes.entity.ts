@@ -27,7 +27,7 @@ export class Hero {
   @Column()
   team: string;
 
-  @Column()
+  @Column('text', { array: true })
   powers: string[];
 
   @Column()
