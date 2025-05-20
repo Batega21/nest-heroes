@@ -16,7 +16,7 @@ export class CreateHeroDto {
   @IsString()
   readonly team: string;
 
-  @IsArray({ each: true })
+  @IsString({ each: true })
   readonly powers: string[];
 
   @IsString()
