@@ -1,12 +1,9 @@
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-// Represents a relationship between a class and a database table.
 @Entity()
 export class Hero {
   @PrimaryGeneratedColumn()

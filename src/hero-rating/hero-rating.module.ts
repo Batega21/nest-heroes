@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { HeroesRatingService } from './hero-rating.service';
-import { CoffeesModule } from '../coffees/coffees.module';
+import { HeroesModule } from 'src/heroes/heroes.module';
 
 @Module({
-  imports: [CoffeesModule],
+  imports: [HeroesModule],
   providers: [HeroesRatingService],
 })
 export class HeroesRatingModule {}
